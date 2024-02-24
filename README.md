@@ -16,8 +16,14 @@ This tool can exist thanks to the hard work of the author of the package [nayan-
 
 Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
+In your prefered directory :
 ```bash
-npm install -g potikena-cli
+git clone git@github.com:herimanana301/Potikena-cli.git
+
+```
+
+```bash
+npm install -g 
 
 ```
 ## Usage
