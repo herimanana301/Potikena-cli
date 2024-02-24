@@ -6,7 +6,8 @@ Potikena is a simple command-line tool that allows you to easily download videos
 Potikena is an experimental tool and intended for personal use only, and the developer (Herimanana Rasolonirina) is not responsible for any misuse of the tool. Users are advised to use Potikena responsibly and comply with the terms of service of the respective platforms.
 
 ## Dependency
-This tool can exist thanks to the hard work of the author of the package [nayan-media-downloader](https://www.npmjs.com/package/nayan-media-downloader)
+
+This tool owes its existence to the diligent efforts and dedication of the package's author --> [nayan-media-downloader](https://www.npmjs.com/package/nayan-media-downloader)
 
 ## Features
 
