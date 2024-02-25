@@ -10,5 +10,5 @@ program
     await welcome()
     await mediaChoice()
   });
-
+//Other commands for shortcuts will come
   program.parse(process.argv);
