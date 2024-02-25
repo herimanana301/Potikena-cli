@@ -2,6 +2,8 @@
 
 Potikena is a simple command-line tool that allows you to easily download videos from various social media platforms. Whether it's a captivating Facebook/Instagram Video, an entertaining TikTok video, or a must-watch YouTube clip, Potikena has you covered!
 
+![Potikena ScreenShot](./screenshot/main.png)
+
 ## Disclaimer
 Potikena is an experimental tool and intended for personal use only, and the developer (Herimanana Rasolonirina) is not responsible for any misuse of the tool. Users are advised to use Potikena responsibly and comply with the terms of service of the respective platforms.
 

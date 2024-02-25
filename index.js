@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import {Command} from "commander"
-import {welcome, mediaChoice} from "./handlers.js"
+import {welcome, mediaChoice} from "./engine/handlers.js"
 
 const program = new Command()
 
