@@ -3,7 +3,10 @@ import { createSpinner } from "nanospinner";
 import * as rdm from "randomstring"
 import * as https from 'https';
 import * as fs from "fs"
+import * as os from "os"
+import * as path from "path"
 const {ndown, ytdown, tikdown} = pkg
+
 
 function httpGet(result,path){
     const downloadLoader = createSpinner("Downloading the file, please let me cook...").start()
@@ -22,8 +25,9 @@ function httpGet(result,path){
        process.exit(1)
     })
 }
-
-export async function downloader (choice,url,path){
+const downloadDir = path.join(os.homeDir(), 'Downloads');
+export async function downloader (choice,url,path=downloadDir){
+    // there is a defautl path in case where the user use the chrome extension
         let result
         const retriveLoader = createSpinner("Fetching data, please wait...").start()
         switch(choice.toLowerCase()){

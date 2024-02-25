@@ -2,7 +2,8 @@ import inquirer from "inquirer";
 import gradient from "gradient-string";
 import figlet from "figlet";
 import { downloader } from "./downloader.js";
-
+import * as os from "os"
+import * as path from "path"
 const goSleep = () => new Promise((r)=>setTimeout(r,100))
 
 export async function welcome(){
@@ -20,6 +21,8 @@ Whether it's a captivating Facebook/Instagram Video, an entertaining TikTok vide
 By Herimanana Rasolonirina
     `)
 }
+
+const downloadDir = path.join(os.homeDir(), 'Downloads');
 export async function mediaChoice(){
     const choice = await inquirer.prompt({
         name:"Platform",
@@ -41,7 +44,7 @@ export async function mediaChoice(){
         type:"text",
         message:"Enter the path of download :",
         default(){
-            return(".")
+            return(downloadDir)
         }
     })
 
