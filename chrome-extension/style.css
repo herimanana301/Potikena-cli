@@ -1,0 +1,64 @@
+body{
+    font-family: "Inter", sans-serif;
+}
+
+.container{
+    width: 500px;
+}
+.container>h1{
+    font-size: 25px;
+    text-align: center;
+}
+.choicescontainer{
+    display: flex;
+    flex-wrap: wrap;
+}
+.choice{
+    display: flex;
+    width: 200px;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #D1DBE8;
+    margin: 0.3rem;
+    cursor: pointer;
+    transition: all .2s ease-out;
+}
+.choice:hover{
+    background-color: #503C3C;
+    transition: all .2s ease-in;
+}
+.choice:hover>p{
+    color: white;
+    transition: all .2s ease-in;
+}
+.choice:hover>.socialicon{
+    color: white;
+    transition: all .2s ease-in;
+}
+.choice>p{
+    margin: 0;
+    margin-top: 0.2rem;
+}
+
+#urlinput{
+    width: 440px;
+    margin: 0.3rem;
+    padding: 1rem;
+    border-radius: 10px;
+    border: 0px;
+    background-color: #E8EDF2;
+}
+
+#buttoninput{
+    width: 470px;
+    margin: 0.3rem;
+    margin-top: 0.8rem;
+    padding: 0.8rem;
+    border-radius: 10px;
+    border: 0px;
+    background-color: #E8EDF2;
+}
+
+form{
+    margin-top: 1rem;
+}
