@@ -25,7 +25,7 @@ function httpGet(result,path){
        process.exit(1)
     })
 }
-const downloadDir = path.join(os.homeDir(), 'Downloads');
+const downloadDir = path.join(os.homedir(), 'Downloads');
 export async function downloader (choice,url,path=downloadDir){
     // there is a defautl path in case where the user use the chrome extension
         let result

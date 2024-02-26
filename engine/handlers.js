@@ -22,7 +22,8 @@ By Herimanana Rasolonirina
     `)
 }
 
-const downloadDir = path.join(os.homeDir(), 'Downloads');
+const downloadDir = path.join(os.homedir(), 'Downloads');
+
 export async function mediaChoice(){
     const choice = await inquirer.prompt({
         name:"Platform",

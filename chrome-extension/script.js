@@ -1,5 +1,4 @@
 import { downloader } from "../engine/downloader.js"
-
 const choices = document.querySelectorAll(".choice")
 const formInput = document.querySelector("form")
 const stateSection = document.querySelector("#downloadinformation")
