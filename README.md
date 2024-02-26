@@ -26,6 +26,11 @@ git clone git@github.com:herimanana301/Potikena-cli.git
 ```
 
 ```bash
+npm install
+
+```
+To install it globally
+```bash
 npm install -g 
 
 ```
