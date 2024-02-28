@@ -34,6 +34,12 @@ To install it globally
 npm install -g 
 
 ```
+if you are on windows, please do this before installing it globally ( other case it will give error message )
+```bash
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+```
+*More information about Set-ExecutionPolicy of windows [here](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.4)
 ## Usage
 Launch the tool using this command
 
