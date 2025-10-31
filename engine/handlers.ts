@@ -4,10 +4,13 @@ import figlet from "figlet";
 import { downloader } from "./downloader.js";
 import * as os from "os"
 import * as path from "path"
-const goSleep = () => new Promise((r)=>setTimeout(r,100))
 
+type Answers = { link: string,Platform:string,text:string, path:string };
+
+
+const goSleep = () => new Promise((r)=>setTimeout(r,100))
 export async function welcome(){
-    const welcomeMessage = "POTIKENA"
+    const welcomeMessage : string = "POTIKENA"
     figlet(welcomeMessage,(err,data)=>{
         console.log(gradient.pastel.multiline(data))
     })
@@ -25,7 +28,7 @@ By Herimanana Rasolonirina
 const downloadDir = path.join(os.homedir(), 'Downloads');
 
 export async function mediaChoice(){
-    const choice = await inquirer.prompt({
+    const choice = await inquirer.prompt<Answers>({
         name:"Platform",
         type:"list",
         message:"Select the platform :",
@@ -35,14 +38,14 @@ export async function mediaChoice(){
     if(choice.Platform==="(exit)"){
         process.exit(0)
        }
-    const link = await inquirer.prompt({
+    const link = await inquirer.prompt<Answers>({
         name:"link",
-        type:"text",
+        type:"input",
         message:"Enter URL :",
     })
-    const path = await inquirer.prompt({
+    const path = await inquirer.prompt<Answers>({
         name:"path",
-        type:"text",
+        type:"input",
         message:"Enter the path of download :",
         default(){
             return(downloadDir)

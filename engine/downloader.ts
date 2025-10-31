@@ -8,7 +8,7 @@ import * as path from "path"
 const {ndown, ytdown, tikdown} = pkg
 
 
-function httpGet(result,path){
+function httpGet(result:any,path:string){
     const downloadLoader = createSpinner("Downloading the file, please let me cook...").start()
     const downloadLink = result.data[0] ? result.data[0].url : result.data.video 
 
@@ -26,7 +26,7 @@ function httpGet(result,path){
     })
 }
 const downloadDir = path.join(os.homedir(), 'Downloads');
-export async function downloader (choice,url,path=downloadDir){
+export async function downloader (choice:string,url:string,path=downloadDir){
     // there is a defautl path in case where the user use the chrome extension
         let result
         const retriveLoader = createSpinner("Fetching data, please wait...").start()

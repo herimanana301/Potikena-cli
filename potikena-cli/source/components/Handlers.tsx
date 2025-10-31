@@ -1,0 +1,70 @@
+import React from 'react';
+import SelectInput from 'ink-select-input';
+import {Box, useApp} from 'ink';
+import {Text} from 'ink';
+import options from '../data/options.js';
+import VideoDownloader from './video_downloader/VideoDownloader.js';
+type OptionItem = {
+	label: string;
+	value: string;
+	description?: string;
+};
+function Displayer({
+	setChoice,
+	choice,
+	exit,
+}: {
+	choice: string | null;
+	setChoice: (value: string | null) => void;
+	exit: () => void;
+}): React.ReactElement | null {
+	React.useEffect(() => {
+		if (choice === 'exit') exit();
+	}, [choice]);
+	switch (choice) {
+		case 'video':
+			return <VideoDownloader setChoice={setChoice} exit={exit} />;
+		case 'mp3converter':
+			return <Text>You chose to download a video.</Text>;
+		case 'bg_image':
+			return <Text>You chose to download audio.</Text>;
+		case 'img_pdf':
+			return <Text>You chose to download an image.</Text>;
+		case 'pdf_fusion':
+			return <Text>You chose to download a PDF.</Text>;
+		default:
+			return null;
+	}
+}
+export default function Handlers() {
+	const {exit} = useApp();
+	const [choice, setChoice] = React.useState<OptionItem['value'] | null>(null);
+	const [description, setDescription] = React.useState<
+		OptionItem['description'] | null
+	>(options[0]?.description || null);
+
+	return (
+		<Box flexDirection="column" gap={2}>
+			{choice === null ? (
+				<Box gap={3}>
+					<SelectInput
+						items={options as OptionItem[]}
+						onSelect={(item: OptionItem) => {
+							setChoice(item.value);
+						}}
+						onHighlight={(item: OptionItem) => {
+							setDescription(item.description);
+						}}
+						initialIndex={0}
+						isFocused={choice !== null ? false : true}
+					/>
+					<Box borderStyle="singleDouble" width={50} height={4}>
+						<Text>{description}</Text>
+					</Box>
+				</Box>
+			) : (
+				<Displayer choice={choice} setChoice={setChoice} exit={exit} />
+			)}
+		</Box>
+	);
+}

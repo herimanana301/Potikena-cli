@@ -2,6 +2,16 @@
 import {Command} from "commander"
 import {welcome, mediaChoice} from "./engine/handlers.js"
 
+require('ts-node').register({
+  transpileOnly: false,
+  compilerOptions: {
+    module: 'commonjs',
+    allowJs: true,
+    checkJs: false,     
+    esModuleInterop: true
+  }
+});
+
 const program = new Command()
 
 program
