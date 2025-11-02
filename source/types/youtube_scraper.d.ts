@@ -1,0 +1,1 @@
+declare module '@vreden/youtube_scraper';
