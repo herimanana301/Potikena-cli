@@ -3,14 +3,53 @@ import axios from "axios";
 import pkg from "shaon-videos-downloader";
 import * as rdm from "randomstring";
 import * as fs from "fs";
+import { ytmp4 } from "@vreden/youtube_scraper";
 import { pipeline } from "node:stream/promises";
-import {ytmp4} from "@vreden/youtube_scraper"
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegStatic from 'ffmpeg-static';
 
 const { alldown } = pkg;
-async function httpGet(downloadLink: string, dirPath: string): Promise<boolean> {
+
+// Set ffmpeg path
+  //@ts-ignore
+
+ffmpeg.setFfmpegPath(ffmpegStatic);
+
+async function httpGet(downloadLink: string, dirPath: string, isYoutube: boolean = false): Promise<boolean> {
   try {
     const filePath = `${dirPath}/potikena_${rdm.generate()}.mp4`;
 
+    if (isYoutube) {
+      return new Promise((resolve, reject) => {
+        const stream = axios.get(downloadLink, {
+          responseType: "stream",
+          maxRedirects: 5,
+          validateStatus: (s) => s >= 200 && s < 400,
+        });
+
+        stream.then(response => {
+          ffmpeg()
+            .input(response.data)
+            .videoCodec('libx264')
+            .audioCodec('aac')
+            .format('mp4')
+            .on('end', () => {
+              console.log('Conversion completed');
+              resolve(true);
+            })
+            .on('error', (err) => {
+              console.error('FFmpeg error:', err);
+              reject(err);
+            })
+            .save(filePath);
+        }).catch(err => {
+          console.error('Stream error:', err);
+          reject(err);
+        });
+      });
+    }
+
+    // Regular download for other platforms
     const res = await axios.get(downloadLink, {
       responseType: "stream",
       maxRedirects: 5,
@@ -96,7 +135,7 @@ export default async function downloader(choice: string, url: string, dirPath: s
     }
 
     if (result?.status && result?.url) {
-      return await httpGet(result.url, dirPath);
+      return await httpGet(result.url, dirPath, choice ==="youtube"?true:false);  // Added true for YouTube
     } else {
       throw new Error("No video found");
     }
