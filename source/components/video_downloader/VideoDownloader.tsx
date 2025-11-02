@@ -6,7 +6,6 @@ import {Box, Text,useApp} from 'ink';
 import {TextInput, Alert} from '@inkjs/ui';
 import Spinner from 'ink-spinner';
 import mediaOptions from '../../data/mediaoptions.js';
-import {yQuality} from '../../data/mediaquality.js';
 import downloader from '../../engines/video-downloader.js';
 import {access, constants, stat} from 'fs/promises';
 
@@ -19,7 +18,6 @@ type ProcessConfirmation = {
 	completed: boolean;
 	isUrlSubmitted: boolean;
 	isDownloadPathSubmitted: boolean;
-	isQualitySelected: boolean;
 };
 
 type ActiveField = 'url' | 'path' | 'quality' | null;
@@ -61,7 +59,6 @@ export default function VideoDownloader({
 	const [mediaChoice, setMediaChoice] = React.useState<
 		MediaOptionItem['value'] | null
 	>(null);
-	const [videoQuality, setVideoQuality] = React.useState<number | null>(null);
 	const [url, setUrl] = React.useState<string>('');
 	const [downloadPath, setDownloadPath] =
 		React.useState<string>(defaultDownloadDir);
@@ -70,7 +67,6 @@ export default function VideoDownloader({
 			completed: false,
 			isUrlSubmitted: false,
 			isDownloadPathSubmitted: false,
-			isQualitySelected: false,
 		});
 	const [activeInput, setActiveInput] = React.useState<ActiveField>('url');
 	const [errors, setErrors] = React.useState<{url?: string; path?: string}>({});
@@ -89,11 +85,9 @@ export default function VideoDownloader({
   const ready =
     processConfirmation.isUrlSubmitted &&
     processConfirmation.isDownloadPathSubmitted &&
-    (mediaChoice !== 'youtube' || processConfirmation.isQualitySelected) &&
     !!mediaChoice &&
     !isRunning &&
-    !processConfirmation.completed; // Add this check
-
+    !processConfirmation.completed;
   if (!ready) return;
 
   let isSubscribed = true; // Add this flag for cleanup
@@ -102,7 +96,7 @@ export default function VideoDownloader({
     try {
       setIsRunning(true);
       const finalPath = (downloadPath || '').trim() || defaultDownloadDir;
-      const success = await downloader(mediaChoice!, url.trim(), finalPath, videoQuality);
+      const success = await downloader(mediaChoice!, url.trim(), finalPath);
       
       if (!isSubscribed) return; // Check if component is still mounted
 
@@ -130,9 +124,9 @@ export default function VideoDownloader({
   })();
 
   return () => {
-    isSubscribed = false; // Cleanup function
-  };	}, [mediaChoice, url, downloadPath, videoQuality, processConfirmation.isUrlSubmitted, 
-    processConfirmation.isDownloadPathSubmitted, processConfirmation.isQualitySelected]);
+    isSubscribed = false;
+  };	}, [mediaChoice, url, downloadPath, processConfirmation.isUrlSubmitted, 
+    processConfirmation.isDownloadPathSubmitted]);
 
 	function markSubmitted(flag: ValidationFlag, value: boolean) {
 		setProcessConfirmation(prev => ({...prev, [flag]: value}));
@@ -163,29 +157,11 @@ export default function VideoDownloader({
 								return;
 							}
 							markSubmitted('isUrlSubmitted', true);
-							setActiveInput(mediaChoice === 'youtube' ? 'quality' : 'path');
+							setActiveInput('path');
 						}}
 						isDisabled={activeInput !== 'url' || isRunning}
 					/>
 					{errors.url ? <Text color="red">{errors.url}</Text> : null}
-
-					{mediaChoice === 'youtube' && processConfirmation.isUrlSubmitted && (
-					<Box flexDirection="column" gap={1}>
-						<SelectInput
-							isFocused={activeInput === 'quality'}
-							items={yQuality}
-							onSelect={(item: {value: number}) => {
-								setVideoQuality(item.value);
-								markSubmitted('isQualitySelected', true);
-								setActiveInput('path');
-							}}
-						/>
-						<Alert variant="info">
-							Closest quality to the selected one will be choosed if it is isn't available
-						</Alert>
-					</Box>
-					)}
-
 					<TextInput
 						placeholder={`Enter the destination (default: ${defaultDownloadDir})`}
 						onChange={value => {
