@@ -12,7 +12,7 @@ type OptionItem = {
 function Displayer({
 	setChoice,
 	choice,
-	exit,
+	exit
 }: {
 	choice: string | null;
 	setChoice: (value: string | null) => void;
@@ -23,7 +23,7 @@ function Displayer({
 	}, [choice]);
 	switch (choice) {
 		case 'video':
-			return <VideoDownloader setChoice={setChoice} exit={exit} />;
+			return <VideoDownloader setChoice={setChoice} />;
 		case 'mp3converter':
 			return <Text>You chose to download a video.</Text>;
 		case 'bg_image':

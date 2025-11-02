@@ -1,21 +1,7 @@
 {
-    "compilerOptions": {
-        "target": "es2016",
-        "module": "commonjs",
-        "allowJs": true,      // Allow JavaScript files
-        "checkJs": true,      // Enable type checking for JS files
-        "outDir": "./dist",  // Compiled files will be placed here
-        "esModuleInterop": true,
-        "forceConsistentCasingInFileNames": true,
-        "strict": true,       // Set to false initially for easier migration
-        "skipLibCheck": true,
-        "moduleResolution": "node",
-        "resolveJsonModule": true,
-        "baseUrl": ".",
-        "paths": {
-            "*": ["node_modules/*"]
-        }
-    },
-    "include": ["src/**/*", "**/*.ts", "**/*.js"],
-    "exclude": ["node_modules", "dist"]
+	"extends": "@sindresorhus/tsconfig",
+	"compilerOptions": {
+		"outDir": "dist"
+	},
+	"include": ["source"]
 }

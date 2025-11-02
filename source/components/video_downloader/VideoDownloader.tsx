@@ -2,9 +2,11 @@ import * as os from 'os';
 import * as path from 'path';
 import React, {useEffect} from 'react';
 import SelectInput from 'ink-select-input';
-import {Box, Text} from 'ink';
-import {TextInput, Spinner, Alert} from '@inkjs/ui';
+import {Box, Text,useApp} from 'ink';
+import {TextInput, Alert} from '@inkjs/ui';
+import Spinner from 'ink-spinner';
 import mediaOptions from '../../data/mediaoptions.js';
+import {yQuality} from '../../data/mediaquality.js';
 import downloader from '../../engines/video-downloader.js';
 import {access, constants, stat} from 'fs/promises';
 
@@ -17,9 +19,10 @@ type ProcessConfirmation = {
 	completed: boolean;
 	isUrlSubmitted: boolean;
 	isDownloadPathSubmitted: boolean;
+	isQualitySelected: boolean;
 };
 
-type ActiveField = 'url' | 'path' | null;
+type ActiveField = 'url' | 'path' | 'quality' | null;
 type ValidationFlag = keyof ProcessConfirmation;
 
 const defaultDownloadDir: string = path.join(os.homedir(), 'Downloads');
@@ -50,15 +53,15 @@ async function validatePath(raw: string): Promise<string | null> {
 }
 
 export default function VideoDownloader({
-	setChoice,
-	exit,
+	setChoice
 }: {
 	setChoice: (value: string | null) => void;
-	exit: () => void;
 }): React.ReactElement | null {
+	const {exit} = useApp();
 	const [mediaChoice, setMediaChoice] = React.useState<
 		MediaOptionItem['value'] | null
 	>(null);
+	const [videoQuality, setVideoQuality] = React.useState<number | null>(null);
 	const [url, setUrl] = React.useState<string>('');
 	const [downloadPath, setDownloadPath] =
 		React.useState<string>(defaultDownloadDir);
@@ -67,6 +70,7 @@ export default function VideoDownloader({
 			completed: false,
 			isUrlSubmitted: false,
 			isDownloadPathSubmitted: false,
+			isQualitySelected: false,
 		});
 	const [activeInput, setActiveInput] = React.useState<ActiveField>('url');
 	const [errors, setErrors] = React.useState<{url?: string; path?: string}>({});
@@ -80,38 +84,55 @@ export default function VideoDownloader({
 		}
 	}, [mediaChoice, setChoice]);
 
-	// Kick off download once both inputs are valid and a mediaChoice is set
+	// Kick off download once all inputs are valid and a mediaChoice is set
 	useEffect(() => {
-		const ready =
-			processConfirmation.isUrlSubmitted &&
-			processConfirmation.isDownloadPathSubmitted &&
-			!!mediaChoice &&
-			!isRunning;
+  const ready =
+    processConfirmation.isUrlSubmitted &&
+    processConfirmation.isDownloadPathSubmitted &&
+    (mediaChoice !== 'youtube' || processConfirmation.isQualitySelected) &&
+    !!mediaChoice &&
+    !isRunning &&
+    !processConfirmation.completed; // Add this check
 
-		if (!ready) return;
+  if (!ready) return;
 
-		(async () => {
-			try {
-				setIsRunning(true);
-				const finalPath = (downloadPath || '').trim() || defaultDownloadDir;
-				await downloader(mediaChoice!, url.trim(), finalPath);
-				setIsRunning(false);
-				setProcessConfirmation(prev => ({
-					...prev,
-					completed: true,
-				}));
-				exit();
-			} catch (e: any) {
-				setFatalError(e?.message || 'Download failed. Please try again.');
-				setIsRunning(false);
-				setActiveInput('path');
-				setProcessConfirmation(prev => ({
-					...prev,
-					isDownloadPathSubmitted: false,
-				}));
-			}
-		})();
-	}, [processConfirmation, mediaChoice, url, downloadPath, exit, isRunning]);
+  let isSubscribed = true; // Add this flag for cleanup
+
+  (async () => {
+    try {
+      setIsRunning(true);
+      const finalPath = (downloadPath || '').trim() || defaultDownloadDir;
+      const success = await downloader(mediaChoice!, url.trim(), finalPath, videoQuality);
+      
+      if (!isSubscribed) return; // Check if component is still mounted
+
+      setIsRunning(false);
+      if (success) {
+        setProcessConfirmation(prev => ({
+          ...prev,
+          completed: true,
+        }));
+        setTimeout(() => {
+          exit();
+        }, 1000);
+      } else {
+        setFatalError('Download failed. Please try again.');
+      }
+    } catch (e: any) {
+      if (!isSubscribed) return;
+      
+      setFatalError(e?.message || 'Download failed. Please try again.');
+      setIsRunning(false);
+      setTimeout(() => {
+        exit();
+      }, 3000);
+    }
+  })();
+
+  return () => {
+    isSubscribed = false; // Cleanup function
+  };	}, [mediaChoice, url, downloadPath, videoQuality, processConfirmation.isUrlSubmitted, 
+    processConfirmation.isDownloadPathSubmitted, processConfirmation.isQualitySelected]);
 
 	function markSubmitted(flag: ValidationFlag, value: boolean) {
 		setProcessConfirmation(prev => ({...prev, [flag]: value}));
@@ -142,11 +163,28 @@ export default function VideoDownloader({
 								return;
 							}
 							markSubmitted('isUrlSubmitted', true);
-							setActiveInput('path');
+							setActiveInput(mediaChoice === 'youtube' ? 'quality' : 'path');
 						}}
 						isDisabled={activeInput !== 'url' || isRunning}
 					/>
 					{errors.url ? <Text color="red">{errors.url}</Text> : null}
+
+					{mediaChoice === 'youtube' && processConfirmation.isUrlSubmitted && (
+					<Box flexDirection="column" gap={1}>
+						<SelectInput
+							isFocused={activeInput === 'quality'}
+							items={yQuality}
+							onSelect={(item: {value: number}) => {
+								setVideoQuality(item.value);
+								markSubmitted('isQualitySelected', true);
+								setActiveInput('path');
+							}}
+						/>
+						<Alert variant="info">
+							Closest quality to the selected one will be choosed if it is isn't available
+						</Alert>
+					</Box>
+					)}
 
 					<TextInput
 						placeholder={`Enter the destination (default: ${defaultDownloadDir})`}
@@ -169,12 +207,27 @@ export default function VideoDownloader({
 					/>
 					{errors.path ? <Text color="red">{errors.path}</Text> : null}
 
-					{fatalError ? <Text color="red">{fatalError}</Text> : null}
-					{isRunning ? <Spinner label="Starting downloading..." /> : null}
+					{fatalError ? (
+						<Box flexDirection="column" gap={1}>
+							<Text color="red">{fatalError}</Text>
+							<Text color="red" >CTRL + C to quit</Text>
+						</Box>
+						
+						) : null}
+					{isRunning && !processConfirmation.completed && !fatalError ? 	
+					(<Text>
+						<Text color="blue">
+							<Spinner type="dots" />
+						</Text>
+						{' Starting download...'}
+					</Text>) : null}
 					{processConfirmation.completed ? (
-						<Alert variant="success">
-							Video downloaded successfully to : {downloadPath}
-						</Alert>
+						<Box flexDirection="column" gap={1}>
+							<Alert variant="success">
+								Video downloaded successfully to : {downloadPath}
+							</Alert>
+							<Text> Press Enter To Exit... </Text>
+						</Box>
 					) : null}
 				</Box>
 			) : null}
