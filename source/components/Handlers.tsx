@@ -4,6 +4,7 @@ import {Box, useApp} from 'ink';
 import {Text} from 'ink';
 import options from '../data/options.js';
 import VideoDownloader from './video_downloader/VideoDownloader.js';
+import Mp3Downloader from './mp3_downloader/Mp3Downloader.js';
 type OptionItem = {
 	label: string;
 	value: string;
@@ -25,7 +26,7 @@ function Displayer({
 		case 'video':
 			return <VideoDownloader setChoice={setChoice} />;
 		case 'mp3converter':
-			return <Text>You chose to download a video.</Text>;
+			return <Mp3Downloader setChoice={setChoice} />;
 		case 'bg_image':
 			return <Text>You chose to download audio.</Text>;
 		case 'img_pdf':
