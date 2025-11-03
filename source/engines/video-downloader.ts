@@ -1,4 +1,4 @@
-// downloader.ts
+import path from "path";
 import pkg from "shaon-videos-downloader";
 import httpGet from "./http-get.js";
 
@@ -7,6 +7,7 @@ const { alldown } = pkg;
 export default async function downloader(choice: string, url: string, dirPath: string): Promise<boolean> {
   try {
     let result: any = {};
+    const normalizedDir = path.resolve(dirPath);
     switch (choice.toLowerCase()) {
       case "youtube":
       case "instagram":
@@ -21,7 +22,7 @@ export default async function downloader(choice: string, url: string, dirPath: s
     }
 
     if (result?.status && result?.url) {
-      return await httpGet(result.url, dirPath, "mp4");
+      return await httpGet(result.url, normalizedDir, "mp4");
     } else {
       throw new Error("No video found");
     }
