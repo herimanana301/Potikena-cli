@@ -7,6 +7,7 @@ import VideoDownloader from './video_downloader/VideoDownloader.js';
 import Mp3Downloader from './mp3_downloader/Mp3Downloader.js';
 import BackgroundRemover from './background_remover/BackgroundRemover.js';
 import ImageConverter from './image_format_converter/ImageConverter.js';
+import ImagePdfConverter from './image_to_pdf/ImagePdfConverter.js';
 type OptionItem = {
 	label: string;
 	value: string;
@@ -34,7 +35,7 @@ function Displayer({
 		case 'img_converter':
 			return <ImageConverter setChoice={setChoice}/>;
 		case 'img_pdf':
-			return <Text>You chose to download an image.</Text>;
+			return <ImagePdfConverter setChoice={setChoice}/>;
 		case 'pdf_fusion':
 			return <Text>You chose to download a PDF.</Text>;
 		default:
