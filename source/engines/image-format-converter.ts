@@ -52,10 +52,8 @@ export default async function convertImage(
         throw new Error(`Unhandled format: ${targetFormat}`);
     }
 
-    console.log(`Image converted successfully: ${outputPath}`);
     return true;
-  } catch (error) {
-    console.error("Error during image conversion:", error);
+  } catch (_) {
     return false;
   }
 }

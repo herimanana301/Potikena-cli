@@ -32,8 +32,7 @@ export default async function remove(inputPath: string, outputDirPath: string) {
 
     fs.writeFileSync(outputPath, Buffer.from(arrayBuffer));
     return true;
-  } catch (error) {
-    console.error("Error during background removal:", error);
+  } catch (_) {
     return false;
   }
 }

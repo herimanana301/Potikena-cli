@@ -17,7 +17,6 @@ export default async function downloader(choice: string, url: string, dirPath: s
         result = await alldown(url);
         break;
       default:
-        console.error("Please select an option.");
         return false;
     }
 
@@ -26,8 +25,7 @@ export default async function downloader(choice: string, url: string, dirPath: s
     } else {
       throw new Error("No video found");
     }
-  } catch (e) {
-    console.error("An error occurred:", e);
+  } catch (_) {
     return false;
   }
 }
