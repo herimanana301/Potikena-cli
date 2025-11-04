@@ -20,8 +20,7 @@ export default async function downloader( url: string, dirPath: string): Promise
     } else {
       throw new Error("Youtube not found");
     }
-  } catch (e) {
-    console.error("An error occurred:", e);
+  } catch (_) {
     return false;
   }
 }
