@@ -9,7 +9,7 @@ export default function Welcome() {
 			<Gradient name="atlas">
 				<BigText text="POTIKENA" />
 			</Gradient>
-			<Text>Welcome to Potikena — your multi-tool media CLI!</Text>
+			<Text>Welcome to Potikena — Your Ultimate Media CLI !</Text>
 			<Box padding={0} flexDirection="column">
 				<Text>By Herimanana Rasolonirina.</Text>
 			</Box>

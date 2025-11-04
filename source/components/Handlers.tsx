@@ -63,7 +63,7 @@ export default function Handlers() {
 							setDescription(item.description);
 						}}
 						initialIndex={0}
-						isFocused={choice !== null ? false : true}
+						isFocused={true}
 					/>
 					<Box borderStyle="singleDouble" width={50} height={4}>
 						<Text>{description}</Text>

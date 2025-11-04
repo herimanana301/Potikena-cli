@@ -73,13 +73,6 @@ export default function VideoDownloader({
 	const [isRunning, setIsRunning] = React.useState<boolean>(false);
 	const [fatalError, setFatalError] = React.useState<string | null>(null);
 
-	// Handle "exit" from the select menu
-	useEffect(() => {
-		if (mediaChoice === 'exit') {
-			setChoice(null);
-		}
-	}, [mediaChoice, setChoice]);
-
 	// Kick off download once all inputs are valid and a mediaChoice is set
 	useEffect(() => {
   const ready =
@@ -135,21 +128,25 @@ export default function VideoDownloader({
 	return (
 		<Box flexDirection="column" gap={2}>
 			<SelectInput
-				isFocused={mediaChoice === null}
+				isFocused={true}
 				items={mediaOptions as MediaOptionItem[]}
-				onSelect={(item: MediaOptionItem) => setMediaChoice(item.value)}
+				onSelect={(item: MediaOptionItem) => item.value === "exit" ? setChoice(null):setMediaChoice(item.value)}
 				initialIndex={0}
 			/>
 
 			{mediaChoice && mediaChoice !== 'exit' ? (
 				<Box flexDirection="column" gap={1}>
 					<TextInput
-						placeholder="Enter the video URL here"
+						placeholder="Enter the video URL here or type 'exit' to go back"
 						onChange={value => {
 							setUrl(value);
 							if (errors.url) setErrors(prev => ({...prev, url: undefined}));
 						}}
 						onSubmit={async () => {
+							if (url ==="exit") {
+								setMediaChoice(null);
+								setUrl('');
+							}
 							const err = validateUrl(url);
 							if (err) {
 								setErrors(prev => ({...prev, url: err}));
