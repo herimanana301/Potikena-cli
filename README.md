@@ -1,21 +1,35 @@
-# Potikena - Your Ultimate Video Downloader CLI
+# Potikena - Your Ultimate Media CLI
 
-Potikena is a simple command-line tool that allows you to easily download videos from various social media platforms. Whether it's a captivating Facebook/Instagram Video, an entertaining TikTok video, or a must-watch YouTube clip, Potikena has you covered!
+Potikena is a versatile command-line tool that allows you to perform a variety of media tasks efficiently. From downloading videos to converting and manipulating images and PDFs, Potikena provides a simple interface to handle all your media needs.
 
-💡<b>Note for YouTube: Due to restrictions on YouTube, use the URL obtained from the "Share" button on the video page, as the navigation bar link won't work.</b>💡
+
+
+💡 **Important Note: The first launch may take some time as necessary resources are being loaded.** 💡
+
+
 
 ![Potikena ScreenShot](./screenshot/main.png)
 
 ## Disclaimer
-Potikena is an experimental tool and intended for personal use only, and the developer (Herimanana Rasolonirina) is not responsible for any misuse of the tool. Users are advised to use Potikena responsibly and comply with the terms of service of the respective platforms.
+Potikena is an experimental tool intended for personal use only. The developer (Herimanana Rasolonirina) is not responsible for any misuse of the tool. Users should comply with the terms of service of the respective platforms.
 
-## Dependency
-
-This tool owes its existence to the diligent efforts and dedication of the package's author --> [nayan-media-downloader](https://www.npmjs.com/package/nayan-media-downloader)
 
 ## Features
 
-- Download videos from Facebook, Instagram, TikTok, YouTube, and more.
+### Online features
+- Download videos from Facebook, Instagram, TikTok, YouTube.
+- Convert YouTube videos to MP3 format.
+### Offline features (no internet required)
+- Remove the background from images. 
+- Convert images to different formats (PNG, JPEG, WEBP, AVIF, TIFF, GIF).
+- Convert images to PDF.
+- Merge multiple PDFs into a single file.
+
+## Upcoming features
+[ ] Add watermark to images or PDFs.
+[ ] Ability to provide arguments directly when calling `potikena`, skipping interactive prompts.
+
+
 
 ## Installation
 
@@ -47,12 +61,5 @@ Launch the tool using this command
 
 ```bash
 potikena
+# May take some time as necessary resources are being loaded.
 ```
-To download a video, simply run the potikena command and follow the prompts:
-
-- Choose the platform (facebook, instagram, tiktok or Youtube).
-- Enter the URL of the video.
-- Specify the path where you want to save the downloaded video.
-
-Note for YouTube:
-Due to restrictions on YouTube, use the URL obtained from the "Share" button on the video page, as the navigation bar link won't work.
