@@ -18,6 +18,11 @@ const options = [
 			'Remove backgrounds from images to create transparent images easily.',
 	},
 	{
+		label: 'Image format converter',
+		value: 'img_converter',
+		description: 'Convert original image files to different formats like PNG, JPG, WebP, etc.',
+	},
+	{
 		label: 'Image to PDF',
 		value: 'img_pdf',
 		description: 'Convert images into PDF format for easy sharing and storage.',

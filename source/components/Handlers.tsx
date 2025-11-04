@@ -6,6 +6,7 @@ import options from '../data/options.js';
 import VideoDownloader from './video_downloader/VideoDownloader.js';
 import Mp3Downloader from './mp3_downloader/Mp3Downloader.js';
 import BackgroundRemover from './background_remover/BackgroundRemover.js';
+import ImageConverter from './image_format_converter/ImageConverter.js';
 type OptionItem = {
 	label: string;
 	value: string;
@@ -30,6 +31,8 @@ function Displayer({
 			return <Mp3Downloader setChoice={setChoice} />;
 		case 'bg_image':
 			return <BackgroundRemover setChoice={setChoice} />;
+		case 'img_converter':
+			return <ImageConverter setChoice={setChoice}/>;
 		case 'img_pdf':
 			return <Text>You chose to download an image.</Text>;
 		case 'pdf_fusion':
