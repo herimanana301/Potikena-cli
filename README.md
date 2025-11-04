@@ -26,8 +26,8 @@ Potikena is an experimental tool intended for personal use only. The developer (
 - Merge multiple PDFs into a single file.
 
 ## Upcoming features
-[ ] Add watermark to images or PDFs.
-[ ] Ability to provide arguments directly when calling `potikena`, skipping interactive prompts.
+- [ ] Add watermark to images or PDFs.
+- [ ] Ability to provide arguments directly when calling `potikena`, skipping interactive prompts.
 
 
 
