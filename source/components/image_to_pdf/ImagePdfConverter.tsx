@@ -126,7 +126,7 @@ export default function ImagePdfConverter({
             <Box flexDirection="column" gap={1}>
                 <Box width={40} >
                     <Alert variant="info" >
-                         Support PNG, Jpeg(jpg), Webp to PDF conversion.
+                         Supports PNG, Jpeg(jpg), Webp to PDF conversion.
                     </Alert>
                 </Box>
 
