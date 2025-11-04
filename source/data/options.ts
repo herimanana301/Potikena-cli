@@ -28,8 +28,8 @@ const options = [
 		description: 'Convert images into PDF format for easy sharing and storage.',
 	},
 	{
-		label: 'PDF Fusionner',
-		value: 'pdf_fusion',
+		label: 'PDF merger',
+		value: 'pdf_merger',
 		description: 'Merge multiple PDF files into a single document seamlessly.',
 	},
 	{
