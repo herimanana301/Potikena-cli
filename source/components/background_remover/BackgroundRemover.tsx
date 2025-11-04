@@ -126,7 +126,7 @@ export default function BackgroundRemover({
             <Box flexDirection="column" gap={1}>
                 <Box width={40} >
                     <Alert variant="info" >
-                         Support PNG, Jpeg(jpg), Webp
+                         Supports PNG, Jpeg(jpg), Webp
                     </Alert>
                 </Box>
 
