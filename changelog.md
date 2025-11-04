@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Migrate from JS to Typescript
 - Add Youtube Video to MP3 Converter
 - Add Background Image remover
+- Add Image format converter
 
 ## [1.0.0] - 2024-03-04
 ### Added
