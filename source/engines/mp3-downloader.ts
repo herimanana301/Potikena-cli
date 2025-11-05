@@ -10,7 +10,6 @@ export default async function downloader( url: string, dirPath: string): Promise
     const ytresult = await ytmp3(url,256);
     if (ytresult?.status) {
       result.url = ytresult?.download?.url;
-      console.log(result.url);
       result.title = ytresult?.metadata?.title.replace(/[^a-zA-Z0-9() ]+/g, '');
       result.status = ytresult?.status;
     }
