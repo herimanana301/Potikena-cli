@@ -55,6 +55,11 @@ if you are on windows, please do this before installing it globally ( other case
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ```
+```bash
+npm run build
+
+```
+
 *More information about Set-ExecutionPolicy of windows [here](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.security/set-executionpolicy?view=powershell-7.4)
 ## Usage
 Launch the tool using this command
