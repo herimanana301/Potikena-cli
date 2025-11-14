@@ -37,7 +37,7 @@ Make sure you have [Node.js](https://nodejs.org/) installed on your machine.
 
 In your prefered directory :
 ```bash
-git clone git@github.com:herimanana301/Potikena-cli.git
+git clone https://github.com/herimanana301/Potikena-cli.git/
 
 ```
 
